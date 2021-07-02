@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, \
 
 
 #UserManager class is class that provides the helper class for creating a user or super user
-
 class UserManager(BaseUserManager):
 
     #**extra_fileds --> take any of the extra arguments when you create user using 
@@ -16,7 +15,7 @@ class UserManager(BaseUserManager):
             raise ValueError("User must have the email address")
         #**extra_fileds = pass anything extra we add
 
-        #email=self.normalize_email(email) --> normalize_email will make sure user input email is converted into lowercase
+        #email=self.normalize_email(email) --> Normalizing the email address will ensure that the domain (everything after the "@") is lowercase
         user = self.model(email=self.normalize_email(email),**extra_fileds)
         #this is save password in encrypted format
         user.set_password(password)
@@ -35,8 +34,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
-        
 
+
+#POJO class
 class User(AbstractBaseUser,PermissionsMixin):
     """Custom user model that supports using email instead of username"""
 
@@ -45,7 +45,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     is_active   = models.BooleanField(default=True)
     is_staff    = models.BooleanField(default=False)
 
-    objects = UserManager()
+    objects     = UserManager()
 
     USERNAME_FIELD = 'email'
 
